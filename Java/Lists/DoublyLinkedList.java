@@ -28,7 +28,7 @@ public class DoublyLinkedList implements LinkedList {
     }
 
     // Add first element.
-    public int addFirst(Object obj) {
+    private int addFirst(Object obj) {
         try {
             this.head = this.tail = new Node(obj, null, null);
             this.len++;
@@ -199,7 +199,7 @@ public class DoublyLinkedList implements LinkedList {
                 return "[]";
             Node current = this.head;
             String result = "[";
-            while (current.next != null) {
+            while (current != null) {
                 if (current.data instanceof String)
                     result += "\"" + current.data + "\", ";
                 else 
@@ -251,11 +251,8 @@ public class DoublyLinkedList implements LinkedList {
         dll.addAtEnd("Called Second");
         dll.addAtEnd("Called Third");
         dll.addAtEnd("Called Fourth");
-        System.out.println((dll.insertAt("Called Fifth", 4)));
 
         System.out.println(dll);
-        System.out.println("\n");
-        dll.printList();
     }
 
     

@@ -1,6 +1,7 @@
 package Queue;
 
 public interface Queue {
+    
     public int push(Object obj);
 
     public Object peek();

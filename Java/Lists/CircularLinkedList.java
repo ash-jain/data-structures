@@ -26,7 +26,7 @@ public class CircularLinkedList implements LinkedList {
     }
 
     // Add first element.
-    public int addFirst(Object obj) {
+    private int addFirst(Object obj) {
         try {
             this.head = new Node(obj, null);
             this.len++;

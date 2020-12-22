@@ -27,7 +27,7 @@ class SinglyLinkedList implements LinkedList {
     }
 
     // Add first element.
-    public int addFirst(Object obj) {
+    private int addFirst(Object obj) {
         try {
             this.head = this.tail = new Node(obj, null);
             this.len++;

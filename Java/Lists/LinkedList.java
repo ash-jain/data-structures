@@ -2,7 +2,6 @@ package Lists;
 
 public interface LinkedList {
 
-    public int addFirst(Object obj);
     public int addAtStart(Object obj);
     public int addAtEnd(Object obj);
     public int insertAt(Object obj, int index);
@@ -19,4 +18,5 @@ public interface LinkedList {
     // For debugging only.
     @Deprecated
     public int printList();
+    
 }
