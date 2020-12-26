@@ -51,7 +51,7 @@ public class SimpleStack implements Stack {
                 return null;
             return this.data[this.len-1];
         } catch (Exception e) {
-            return null;
+            return -1;
         }
     }
 
@@ -62,7 +62,7 @@ public class SimpleStack implements Stack {
             remove(this.len-1);
             return obj;
         } catch (Exception e) {
-            return null;
+            return -1;
         }
     }
 
@@ -102,7 +102,7 @@ public class SimpleStack implements Stack {
         return this.len;
     }
 
-    // Stringifies the stack.
+    // Stringifies the stack data.
     public String toString() {
         try {
             if (this.len == 0)

@@ -1,19 +1,24 @@
-class Main {
+import Lists.*;
+import Queue.*;
+import Stack.*;
+
+class Tests {
 
     public static int stack() {
         // Tests for Stack.
         //try {
-            Stack stack = new SimpleStack(10);
+            Stack stack = new SimpleStack();
             stack.push(100);
             stack.push("A Fucking String");
             stack.push(300);
             stack.push(400);
-            System.out.println("Top element is " + stack.peek("top") + ".");
+            System.out.println("Top element is " + stack.peek() + ".");
             System.out.println(stack.pop() + " is removed.");
-            stack.peek("full");
+            System.out.println(stack.peek());
             System.out.println("Length is " + stack.getLength() + ".");
             stack.clear();
-            stack.peek("full");
+            assert stack.isEmpty();
+            System.out.println(stack);
         //} catch (Exception e) {
         //    return 1;
         //}
@@ -23,19 +28,20 @@ class Main {
     public static int queue() {
         // Tests for Queue.
         //try {
-            Queue queue = new SimpleQueue(10);
-            queue.add(100);
-            queue.add("Strings!");
-            queue.add(300);
-            queue.add(400);
-            System.out.println("Next element is " + queue.peek("top") + ".");
-            queue.peek("full");
+            Queue queue = new SimpleQueue();
+            queue.push(100);
+            queue.push("Strings!");
+            queue.push(300);
+            queue.push(400);
+            System.out.println("Next element is " + queue.peek() + ".");
+            System.out.println(queue);
             System.out.println(queue.pop() + " is removed.");
-            queue.peek("full");
+            System.out.println(queue);
             queue.clear();
-            queue.peek("full");
+            assert queue.isEmpty();
+            System.out.println(queue);
             return 0;
-        //} catch (Exception e) {
+        //}catch (Exception e) {
         //    return 1;
         //}
     }
@@ -90,19 +96,19 @@ class Main {
 
         System.out.println("-------------");
         System.out.println("Performing tests on Simple Stack: \n");
-        Main.stack();
+        Tests.stack();
 
         System.out.println("\n-------------");
         System.out.println("Performing tests on Queue: \n");
-        Main.queue();
+        Tests.queue();
 
         System.out.println("\n-------------");
         System.out.println("Performing tests on Singly Linked List: \n");
-        Main.singlyLinkedList();
+        Tests.singlyLinkedList();
 
         System.out.println("\n-------------");
         System.out.println("Performing tests on Doubly Linked List: \n");
-        Main.doublyLinkedList();
+        Tests.doublyLinkedList();
 
         System.out.println("\n-------------");
         System.out.println("Tests done. Good Work!\n");
