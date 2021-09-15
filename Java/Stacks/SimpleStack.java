@@ -1,17 +1,17 @@
 /*
-* Implementation of a simple queue using an array to store the data.
+* Implementation of simple stack using an array to store the data.
 * Author - Aakash "Ash" Jain.
 * Contact - aakashjainofficial@gmail.com.
 */
 
-package Queues;
+package Stacks;
 
-public class SimpleQueue implements Queue {
+public class SimpleStack implements Stack {
 
     // This array stores the data. Data can be anything strings, integers, floats and so on
-    // Custom objects using private classes can be also created to suit organizational needs.
+    // Custom objects using private classes can be also be created to suit organizational needs.
     private Object[] data;
-    // Length of the queue. (Total number of nodes in the queue)
+    // Length of the stack. (Total number of nodes on the stack)
     private int len;
     // Size of the array.
     private static int size;
@@ -22,14 +22,14 @@ public class SimpleQueue implements Queue {
     }
 
     // Constructor.
-    public SimpleQueue() {
+    public SimpleStack() {
         // Initialize the array.
-        data = new Object[size];
+        this.data = new Object[size];
         this.len = 0;
     }
 
-    // Add object to the (end of) queue. O(1) / O(n) if array is overflown.
-    public int push(Object obj) { 
+    // Add object to the top of the stack. O(1) / O(n) if array is overflown.
+    public int push(Object obj) {
         try {
             // Initialize if not done already.
             if (this.data == null) {
@@ -47,7 +47,7 @@ public class SimpleQueue implements Queue {
         }
     }
 
-    // Increase size of the queue dynamically. O(n)
+    // Increase the size of the stack dynamically. O(n)
     private int extend() {
         try {
             // Double the size, make a copy of the data.
@@ -64,25 +64,25 @@ public class SimpleQueue implements Queue {
         }
     }
 
-    // Return next node in the queue. O(1)
+    // Return topmost node on the stack. O(1)
     public Object peek() {
         try {
             if (this.isEmpty())
                 return null;
-            return this.data[0];
+            return this.data[this.len-1];
         } catch (Exception e) {
             return -1;
         }
     }
 
-    // Remove and return next node in the queue. O(n)
+    // Remove and return topmost node on the stack. O(n)
     public Object pop() {
         try {
             if (this.isEmpty())
                 return null;
             // Copy the data, remove it from the array and then return the value(s).
-            Object obj = this.data[0];
-            remove(0);
+            Object obj = this.data[this.len-1];
+            remove(this.len-1);
             return obj;
         } catch (Exception e) {
             return -1;
@@ -105,68 +105,69 @@ public class SimpleQueue implements Queue {
         }
     }
 
-    // Delete the queue. O(1)
+    // Delete the stack. O(1)
     public int clear() {
         try {
             // Set data to null and restore all variables to initial states.
             this.data = null;
             this.len = 0;
-            SimpleQueue.size = 25;
+            SimpleStack.size = 25;
             return 0;
         } catch (Exception e) {
             return 1;
         }
     }
 
-    // Return true if the queue is empty, false otherwise. O(1)
+    // Return true if the stack is empty, false otherwise.
     public boolean isEmpty() {
         return this.data == null && this.len == 0;
     }
 
-    // Return the length of the queue. O(1)
+    // Return the length of the stack. O(1)
     public int getLength() {
         return this.len;
     }
 
-    // Stringify the queue data. O(n)
+    // Stringify the stack data. O(n)
     @Override
     public String toString() {
         try {
             if (this.isEmpty())
-                return "[]";
+                return "\n-------\n|     |\n-------\n";
 
-            String result = "[";
+
+            // TODO Add dashes dynamically based on the longest element on the stack.
+            String result = "\n-------\n";
             for (int i = 0; i < this.len; i++) {
                 // Add quotes if the object is a string.
                 if (this.data[i] instanceof String)
-                    result += "\"" + this.data[i] + "\", ";
+                    result += "| \"" + this.data[i] + "\" |\n";
                 else
-                    result += this.data[i] + ", ";
+                    result += "| " + this.data[i] + " |\n";
             }
             // Remove 2 unnecessary characters from the last node.
-            return result.substring(0, result.length()-2) + "]";
+            return result + "-------\n";
         } catch (Exception e) {
             return null;
         }
     }
 
-    // Print whole queue.
+    // Print whole stack.
     @Deprecated
-    public int printQueue() {
-        if (this.isEmpty()) {
-            System.out.println("QUEUE IS EMPTY.");
+    public int printStack() {
+        if (this.isEmpty()) { 
+            System.out.print("\nSTACK IS EMPTY.\n"); 
             return -1;
         }
-
-        System.out.println("\nCURRENT QUEUE IS: ");
+        System.out.println("\nCURRENT STACK IS: \n-------");
         for (int i = 0; i < this.len; i++)
-            System.out.print(" " + this.data[i] + " |" );
-        System.out.println("\n");
+            System.out.println("| " + this.data[i] + " |");
+        System.out.println("-------\n");
         return 0;
     }
 
 
-    // Tests
+    // Tests.
     public static void main(String[] args) {
     }
 

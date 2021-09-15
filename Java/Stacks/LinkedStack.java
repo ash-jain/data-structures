@@ -1,18 +1,18 @@
 /*
-* Implementation of a simple linked queue using linear linked list to store the data.
+* Implementation of simple linked stack using linear linked list to store the data.
 * Each node has two pointers - one to the previous node and one to next node.
 * Author - Aakash "Ash" Jain.
-* Contact - aakashjainofficial@gmail.com.
+* Contact - aakashjainofficial@gmail.com
 */
 
-package Queues;
+package Stacks;
 
-public class LinkedQueue implements Queue {
+public class LinkedStack implements Stack {
 
-    // Node.
+    // Node
     private class Node {
 
-        // Model data. Data can be any object
+        // Mode data. Data can be any object
         // More fields or custom objects can be also added as per requirements.
         private Object data;
         // Pointers to previous and next nodes.
@@ -27,21 +27,21 @@ public class LinkedQueue implements Queue {
 
     }
 
-    // First node in the queue.
+    // First node in the stack.
     private Node head;
-    // Last node in the queue.
+    // Last node in the stack.
     private Node tail;
-    // Length of the queue. (Total number of nodes in the queue)
+    // Length of the stack. (Total number of nodes on the stack)
     private int len;
 
     // Initialize the list.
-    public LinkedQueue() {
-        // Both not necessary just better practice.
+    public LinkedStack() {
+        // Both not necessary can just better practice.
         this.head = this.tail = new Node(null, null, null);
         this.len = 0;
     }
 
-    // Add first node when the queue is empty. O(1)
+    // Add first node when the stack in empty. O(1)
     private int addFirst(Object obj) {
         try {
             // Create new node whose both pointers point at null and set tail and head both to it.
@@ -54,13 +54,13 @@ public class LinkedQueue implements Queue {
         }
     }
 
-    // Add object to (the end of) queue. O(1)
+    // Add object to the top of the stack. O(1)
     public int push(Object obj) {
         try {
             if (this.isEmpty())
                 return this.addFirst(obj);
             // Create new node whose previous pointer points at current tail.
-            // Set this node to pointer of tail and the set tail to this node.
+            // Set this node to pointer of tail and then set tail to this node.
             this.tail = this.tail.next = new Node(obj, this.tail, null);
             this.len++;
             return 0;
@@ -69,25 +69,25 @@ public class LinkedQueue implements Queue {
         }
     }
 
-    // Return next node in the queue. O(1)
+    // Return topmost node on the stack. O(1)
     public Object peek() {
         try {
-            return this.head.data;
+            return this.tail.data;
         } catch (Exception e) {
             return null;
         }
     }
 
-    // Remove and return next node in the queue. O(1)
+    // Remove and return topmost node on the stack. O(1)
     public Object pop() {
         try {
             // Copy over the data from node to be removed.
-            Object data = this.head.data;
-            // Delete the data at head and set head to next node with its
-            // previous pointers set to null as it is now first node in the queue.
-            this.head.data = null;
-            this.head = this.head.next;
-            this.head.prev = null;
+            Object data = this.tail.data;
+            // Delete the data at tail and set tail to previous node with its
+            // next pointer set to null as it is now the topmost node on the stack.
+            this.tail.data = null;
+            this.tail = this.tail.prev;
+            this.tail.next = null;
             this.len--;
             return data;
         } catch (Exception e) {
@@ -150,57 +150,58 @@ public class LinkedQueue implements Queue {
         }
     }
 
-    // Return true if queue is empty, false otherwise. O(1)
+    // Return true if the stack is empty, false otherwise. O(1)
     public boolean isEmpty() {
-        return this.len == 0 && this.head.data == null && this.tail.data == null;
+        return this.len == 0 && this.head.data == null & this.tail.data == null;
     }
 
-    // Return length of the queue.
+    // Return length of the stack.
     public int getLength() {
         return this.len;
     }
 
-    // Stringify the queue data. O(n)
+    // Stringify the object. O(n)
     @Override
     public String toString() {
         try {
             if (this.isEmpty())
-                return "[]";
+                return "\n-------\n|     |\n-------\n";
 
-            Node current = this.head;
-            String result = "[";
+            Node current = this.tail;
+            // TODO Add dashes dynamically based on the longest element on the stack.
+            String result = "\n-------\n";
             while (current != null) {
                 // Add quotes if the object is a string.
                 if (current.data instanceof String)
-                    result += "\"" + current.data + "\", ";
+                    result += "| \"" + current.data + "\" |\n";
                 else
-                    result += current.data + ", ";
-                current = current.next;
+                    result += "| " + current.data + " |\n";
+                current = current.prev;
             }
             // Remove 2 unnecessary characters from the last node.
-            return result.substring(0, result.length()-2) + "]";
+            return result + "-------\n";
         } catch (Exception e) {
             return null;
         }
     }
 
-    // Print whole queue.
+    // Print whole stack.
     @Deprecated
-    public int printQueue() {
+    public int printStack() {
         try {
             if (this.isEmpty()) {
-                System.out.println("QUEUE IS EMPTY.");
+                System.out.println("STACK IS EMPTY.");
                 return -1;
             }
 
-            System.out.println("\nCURRENT QUEUE IS: ");
+            System.out.println("\nCURRENT STACK IS: ");
             Node current = this.head;
-
+            System.out.println("-------");
             while (current != null) {
-                System.out.print(" " + current.data + " |" );
+                System.out.println("| " + current.data + " |");
                 current = current.next;
             }
-            System.out.println("\n");
+            System.out.println("-------\n");
             return 0;
         } catch (Exception e) {
             return -1;
@@ -208,7 +209,7 @@ public class LinkedQueue implements Queue {
     }
 
 
-    // Tests.
+    // Tests
     public static void main(String[] args) {
     }
 

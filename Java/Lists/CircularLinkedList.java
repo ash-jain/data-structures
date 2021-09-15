@@ -14,7 +14,7 @@ public class CircularLinkedList implements LinkedList {
     private class Node {
 
         // Model data. Data can be anything Strings, Integers, Floats and so on
-        // More fields can be added based upon organisational needs.
+        // More fields can be added based upon organizational needs.
         private Object data;
         // Pointer to next node.
         private Node next;
@@ -32,7 +32,7 @@ public class CircularLinkedList implements LinkedList {
     // Length of the list. (Total number of nodes in the list)
     private int len;
 
-    // Constructor. Initialise the list.
+    // Constructor. Initialize the list.
     public CircularLinkedList() {
         this.head = new Node(null, null); // Unnecessary.
         this.len = 0;

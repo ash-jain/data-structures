@@ -251,6 +251,7 @@ public class DoublyLinkedList implements LinkedList {
             // If list is empty.
             if (this.isEmpty())
                 return "[]";
+
             Node current = this.head;
             String result = "[";
             while (current != null) {
