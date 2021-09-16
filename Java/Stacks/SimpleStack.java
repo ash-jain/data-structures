@@ -152,7 +152,7 @@ public class SimpleStack implements Stack {
         }
     }
 
-    // Print whole stack.
+    // Print the stack data.
     @Deprecated
     public int printStack() {
         if (this.isEmpty()) { 

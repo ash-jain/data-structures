@@ -9,11 +9,11 @@ package Stacks;
 
 public class LinkedStack implements Stack {
 
-    // Node
+    // Node prototype.
     private class Node {
 
         // Mode data. Data can be any object
-        // More fields or custom objects can be also added as per requirements.
+        // More fields or custom objects can also be added as per requirements.
         private Object data;
         // Pointers to previous and next nodes.
         private Node prev, next;
@@ -36,7 +36,7 @@ public class LinkedStack implements Stack {
 
     // Initialize the list.
     public LinkedStack() {
-        // Both not necessary can just better practice.
+        // Not necessary to set just better practice.
         this.head = this.tail = new Node(null, null, null);
         this.len = 0;
     }
@@ -46,7 +46,6 @@ public class LinkedStack implements Stack {
         try {
             // Create new node whose both pointers point at null and set tail and head both to it.
             this.head = this.tail = new Node(obj, null, null);
-            // Increment length variable.
             this.len++;
             return 0;
         } catch (Exception e) {
@@ -83,24 +82,38 @@ public class LinkedStack implements Stack {
         try {
             // Copy over the data from node to be removed.
             Object data = this.tail.data;
-            // Delete the data at tail and set tail to previous node with its
-            // next pointer set to null as it is now the topmost node on the stack.
-            this.tail.data = null;
-            this.tail = this.tail.prev;
-            this.tail.next = null;
-            this.len--;
+            // If there's only one element on the stack.
+            if (this.len == 1) {
+                this.tail.data = null;
+                this.head = this.tail = new Node(null, null, null);
+                this.len--;
+            }
+            else if (!this.isEmpty()) {
+                // Delete the data at tail and set tail to previous node with its
+                // next pointer set to null as it is now the topmost node on the stack.
+                this.tail.data = null;
+                this.tail = this.tail.prev;
+                this.tail.next = null;
+                this.len--;
+            }
+
             return data;
         } catch (Exception e) {
             return null;
         }
     }
 
-    // Remove a node at a particular index. Does NOT support negative indexes or overflowing. O(n)
+    // Remove a node at a particular index. Does NOT support negative or overflowing indexes. O(n)
     public int remove(int index) {
         try {
-            // Check for invalid indexes.
+            // Check for invalid index.
             if (index < 0 || index >= this.len)
                 return 1;
+            // If there's only one element on the stack.
+            else if (this.len == 1) {
+                this.head.data = null;
+                this.head = this.tail = new Node(null, null, null);
+            }
             else if (index == 0) {
                 this.head.data = null;
                 this.head = this.head.next;
@@ -112,8 +125,8 @@ public class LinkedStack implements Stack {
                 this.tail.next = null;
             }
             else {
-                // Iterate until node at index is reached.
                 Node current = this.head;
+                // Iterate until node at index is reached.
                 for (int i = 0; i < index; i++)
                     current = current.next;
 
@@ -140,7 +153,7 @@ public class LinkedStack implements Stack {
                 current.data = null;
                 current = current.next;
             }
-            // Set head and tails to null and call in Java garbage collector.
+            // Set head and tail to empty node and call in Java garbage collector.
             this.head = this.tail = new Node(null, null, null);
             System.gc();
             this.len = 0;
@@ -155,12 +168,12 @@ public class LinkedStack implements Stack {
         return this.len == 0 && this.head.data == null & this.tail.data == null;
     }
 
-    // Return length of the stack.
+    // Return length of the stack. O(1)
     public int getLength() {
         return this.len;
     }
 
-    // Stringify the object. O(n)
+    // Stringify the stack data. O(n)
     @Override
     public String toString() {
         try {
@@ -185,23 +198,22 @@ public class LinkedStack implements Stack {
         }
     }
 
-    // Print whole stack.
+    // Print the stack data.
     @Deprecated
     public int printStack() {
         try {
-            if (this.isEmpty()) {
+            if (this.isEmpty())
                 System.out.println("STACK IS EMPTY.");
-                return -1;
+            else {
+                System.out.println("\nCURRENT STACK IS: ");
+                Node current = this.head;
+                System.out.println("-------");
+                while (current != null) {
+                    System.out.println("| " + current.data + " |");
+                    current = current.next;
+                }
+                System.out.println("-------\n");
             }
-
-            System.out.println("\nCURRENT STACK IS: ");
-            Node current = this.head;
-            System.out.println("-------");
-            while (current != null) {
-                System.out.println("| " + current.data + " |");
-                current = current.next;
-            }
-            System.out.println("-------\n");
             return 0;
         } catch (Exception e) {
             return -1;

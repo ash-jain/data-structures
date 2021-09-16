@@ -12,18 +12,18 @@ package Queues;
 public abstract interface Queue {
 
     // Add object to the (end of) queue,
-    // return 0; 1 in case of exception.
+    // return 0; 1 in case of an exception.
     public int push(Object obj); // O(1)
 
     // Return next (first) node in the queue,
-    // null if queue is empty, -1 in case of exception.
+    // null if queue is empty, -1 in case of an exception.
     public Object peek(); // O(1)
 
     // Remove and return next (first) node in the queue,
-    // return null if queue is empty, -1 in case of exception.
+    // return null if queue is empty, -1 in case of an exception.
     public Object pop(); // O(1)
     // Remove node at specified index and return 0, 1 in case of invalid index,
-    // -1 in case of exception. Does NOT support negative or overflowing values.
+    // -1 in case of an exception. Does NOT support negative or overflowing values.
     public int remove(int index); // O(n)
     // Clear the queue and return 0, 1 if some error occurs.
     public int clear(); // O(1) for simple queue using arrays, O(n) for linked queue.
@@ -32,7 +32,7 @@ public abstract interface Queue {
 
     // Return length of the queue. (Total number of nodes)
     public int getLength(); // O(1)
-    // Stringify the raw queue data.
+    // Stringify the queue data.
     @Override
     public String toString(); // O(n)
 

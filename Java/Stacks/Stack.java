@@ -12,18 +12,18 @@ package Stacks;
 public abstract interface Stack {
 
     // Add object to the top of the stack,
-    // return 0; 1 in case of a exception.
+    // return 0; 1 in case of an exception.
     public int push(Object val); // O(1)
 
     // Return topmost node on the stack,
-    // null in stack in empty, -1 in case of exception.
+    // null in stack in empty, -1 in case of an exception.
     public Object peek(); // O(1)
 
     // Remove and return topmost node on the stack,
-    // return null if stack is empty, -1 in case of exception.
+    // return null if stack is empty, -1 in case of an exception.
     public Object pop(); // O(1)
     // Remove node at specified index and return 0, 1 in case of invalid index,
-    // -1 if case of exception. Does NOT support negative or overflowing values.
+    // -1 in case of an exception. Does NOT support negative or overflowing indexes.
     public int remove(int index); // O(n)
     // Clear the stack and return 0, 1 if some error occurs.
     public int clear(); // O(1) for simple stack using arrays, O(n) for linked stack.
@@ -32,7 +32,7 @@ public abstract interface Stack {
 
     // Return the length of the stack. (Total number of nodes)
     public int getLength();
-    // Stringify the raw stack data.
+    // Stringify the stack data.
     @Override
     public String toString(); // O(n)
 

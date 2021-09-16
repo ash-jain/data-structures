@@ -9,11 +9,11 @@ package Queues;
 
 public class LinkedQueue implements Queue {
 
-    // Node.
+    // Node prototype.
     private class Node {
 
         // Model data. Data can be any object
-        // More fields or custom objects can be also added as per requirements.
+        // More fields or custom objects can also be added as per requirements.
         private Object data;
         // Pointers to previous and next nodes.
         private Node prev, next;
@@ -36,7 +36,7 @@ public class LinkedQueue implements Queue {
 
     // Initialize the list.
     public LinkedQueue() {
-        // Both not necessary just better practice.
+        // Not necessary to set just better practice.
         this.head = this.tail = new Node(null, null, null);
         this.len = 0;
     }
@@ -46,7 +46,6 @@ public class LinkedQueue implements Queue {
         try {
             // Create new node whose both pointers point at null and set tail and head both to it.
             this.head = this.tail = new Node(obj, null, null);
-            // Increment length variable.
             this.len++;
             return 0;
         } catch (Exception e) {
@@ -83,24 +82,38 @@ public class LinkedQueue implements Queue {
         try {
             // Copy over the data from node to be removed.
             Object data = this.head.data;
-            // Delete the data at head and set head to next node with its
-            // previous pointers set to null as it is now first node in the queue.
-            this.head.data = null;
-            this.head = this.head.next;
-            this.head.prev = null;
-            this.len--;
+            // If there's only one element in the queue.
+            if (this.len == 1) {
+                this.head.data = null;
+                this.head = this.tail = new Node(null, null, null);
+                this.len--;
+            }
+            else if (!this.isEmpty()) {
+                // Delete the data at head and set head to next node with its
+                // previous pointers set to null as it is now first node in the queue.
+                this.head.data = null;
+                this.head = this.head.next;
+                this.head.prev = null;
+                this.len--;
+            }
+
             return data;
         } catch (Exception e) {
             return null;
         }
     }
 
-    // Remove a node at a particular index. Does NOT support negative indexes or overflowing. O(n)
+    // Remove a node at a particular index. Does NOT support negative or overflowing indexes. O(n)
     public int remove(int index) {
         try {
-            // Check for invalid indexes.
+            // Check for invalid index.
             if (index < 0 || index >= this.len)
                 return 1;
+            // If there's only one element in the queue.
+            else if (this.len == 1) {
+                this.head.data = null;
+                this.head = this.tail = new Node(null, null, null);
+            }
             else if (index == 0) {
                 this.head.data = null;
                 this.head = this.head.next;
@@ -112,8 +125,8 @@ public class LinkedQueue implements Queue {
                 this.tail.next = null;
             }
             else {
-                // Iterate until node at index is reached.
                 Node current = this.head;
+                // Iterate until node at index is reached.
                 for (int i = 0; i < index; i++)
                     current = current.next;
 
@@ -140,7 +153,7 @@ public class LinkedQueue implements Queue {
                 current.data = null;
                 current = current.next;
             }
-            // Set head and tails to null and call in Java garbage collector.
+            // Set head and tail to empty node and call in Java garbage collector.
             this.head = this.tail = new Node(null, null, null);
             System.gc();
             this.len = 0;
@@ -155,7 +168,7 @@ public class LinkedQueue implements Queue {
         return this.len == 0 && this.head.data == null && this.tail.data == null;
     }
 
-    // Return length of the queue.
+    // Return length of the queue. O(1)
     public int getLength() {
         return this.len;
     }
@@ -184,23 +197,22 @@ public class LinkedQueue implements Queue {
         }
     }
 
-    // Print whole queue.
+    // Print the queue data.
     @Deprecated
     public int printQueue() {
         try {
-            if (this.isEmpty()) {
+            if (this.isEmpty())
                 System.out.println("QUEUE IS EMPTY.");
-                return -1;
+            else {
+                System.out.print("\nCURRENT QUEUE IS: \n|");
+                Node current = this.head;
+                while (current != null) {
+                    System.out.print(" " + current.data + " |");
+                    current = current.next;
+                }
+                System.out.println("\n");
             }
 
-            System.out.println("\nCURRENT QUEUE IS: ");
-            Node current = this.head;
-
-            while (current != null) {
-                System.out.print(" " + current.data + " |" );
-                current = current.next;
-            }
-            System.out.println("\n");
             return 0;
         } catch (Exception e) {
             return -1;

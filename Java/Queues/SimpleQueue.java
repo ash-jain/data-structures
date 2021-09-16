@@ -150,7 +150,7 @@ public class SimpleQueue implements Queue {
         }
     }
 
-    // Print whole queue.
+    // Print the queue data.
     @Deprecated
     public int printQueue() {
         if (this.isEmpty()) {
