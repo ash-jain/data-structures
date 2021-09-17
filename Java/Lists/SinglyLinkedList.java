@@ -40,7 +40,7 @@ public class SinglyLinkedList implements LinkedList {
         this.len = 0;
     }
 
-    // Add first node whose pointer points at null.
+    // Add first node when the list is empty. O(1)
     private int addFirst(Object obj) {
         try {
             // Create new node whose pointer points at null and set tail and head both to it.
@@ -58,7 +58,7 @@ public class SinglyLinkedList implements LinkedList {
             if (this.isEmpty())
                 return addFirst(obj);
             // Create new node whose pointer points at the head node and
-            // then set head itself to the newly created node.
+            // then set head itself to this newly created node.
             this.head = new Node(obj, this.head);
             this.len++;
             return 0;
@@ -77,11 +77,9 @@ public class SinglyLinkedList implements LinkedList {
             // set tail itself to that node. O(1).
             this.tail = this.tail.next = new Node(obj, null);
 
-            /* If the tail is not present.
-            // Iterate over the whole list. O(n) (Inefficient)
-
+            /* If the tail is not set.
             Node current = this.head;
-
+            // Iterate over the whole list. O(n) (Inefficient)
             while(current.next != null)
                 current = current.next
             current.next = new Node(obj, null);
@@ -98,7 +96,7 @@ public class SinglyLinkedList implements LinkedList {
     public int insertAt(Object obj, int index) {
         try {
             // Adjust for negative index.
-            if (index < 0 && index * (-1) < this.len)
+            if (index < 0 && index * (-1) <= this.len)
                 index = this.len - index * (-1);
             // If negative index overflows.
             else if (index < 0)
@@ -179,6 +177,8 @@ public class SinglyLinkedList implements LinkedList {
                 current.data = null;
                 previous.next = current.next;
 
+                if (index == this.len-1)
+                    this.tail = current;
             }
 
             this.len--;

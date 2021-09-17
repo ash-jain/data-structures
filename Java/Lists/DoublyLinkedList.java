@@ -1,6 +1,6 @@
 /*
-* Implementation of Dual pointed linked list.
-* Each node points at a node before and ahead of it.
+* Implementation of dually pointed linked list.
+* Each node has data and two pointers who point at a node before and ahead of it.
 * Author - Aakash "Ash" Jain.
 * Contact - aakashjainofficial@gmail.com.
 */
@@ -9,12 +9,11 @@ package Lists;
 
 public class DoublyLinkedList implements LinkedList {
 
-
-    // Node.
+    // Node prototype.
     private class Node {
 
-        // Model data. Data can be anything Strings, Integers, Floats and so on
-        // More fields can be added based upon organisational needs.
+        // Model data. Data can be any object
+        // More fields or custom objects can also be added as per requirements.
         private Object data;
         // Pointers to the next and previous nodes.
         private Node prev, next;
@@ -35,16 +34,17 @@ public class DoublyLinkedList implements LinkedList {
     // Length of the list. (Total number of nodes in the list)
     public int len;
 
-    // Constructor. Initialise the list.
+    // Initialize the list.
     public DoublyLinkedList() {
-        this.head = this.tail = new Node(null, null, null); // Not mandotary.
+        // Not necessary, just better practice.
+        this.head = this.tail = new Node(null, null, null);
         this.len = 0;
     }
 
-    // Add first node whose pointers point at null. O(1)
+    // Add first node when the list is empty. O(1)
     private int addFirst(Object obj) {
         try {
-            // Set head and tail both to this node.
+            // Create new node whose pointers point at null and set tail and head both to it.
             this.head = this.tail = new Node(obj, null, null);
             // Increment length variable.
             this.len++;
@@ -54,16 +54,15 @@ public class DoublyLinkedList implements LinkedList {
         }
     }
 
-    // Add element at the start of the list. O(1)
+    // Add node at the start of the list. O(1)
     public int addAtStart(Object obj) {
         try {
-            // In case list does not have any nodes yet.
             if (this.isEmpty())
                return addFirst(obj);
-            // Create new node whose next pointer points at head node and
-            // then set head variable to this node.
+            // Create new node whose next pointer points at the head node and
+            // then set head itself to this newly created node.
             this.head = new Node(obj, null, this.head);
-            // Point former head's previous pointer to newly created node.
+            // Point former head's previous pointer to new list head.
             this.head.next.prev = this.head;
             this.len++;
             return 0;
@@ -72,28 +71,22 @@ public class DoublyLinkedList implements LinkedList {
         }
     }
 
-    // Add at end of the list. O(1)
+    // Add node at the end of the list. O(1)
     public int addAtEnd(Object obj) {
         try {
-            // If list is empty.
             if (this.isEmpty())
                 return addFirst(obj);
-
-            // Create a node whose previous pointer points at tail
-            // set tail's next pointer to this node and then
-            // point tail to this node.
+            // Create new node whose previous pointer points at current tail,
+            // Set current tail's next pointer to that node and
+            // set tail itself to this newly created node.
             this.tail = this.tail.next = new Node(obj, this.tail, null);
 
-            // Iterate over the whole list. O(n) (Inefficient)
-            /*
+            /* If the tail is not set.
             Node current = this.head;
-
+            // Iterate over the whole list. O(n) (Inefficient)
             while(current.next != null)
                 current = current.next;
-
-            current.next = new Node(obj, null, null);
-            current.next.prev = current;
-            this.tail = current.next;
+            current.next = new Node(obj, current, null);
             */
 
             this.len++;
@@ -103,22 +96,22 @@ public class DoublyLinkedList implements LinkedList {
         }
     }
 
-    // Insert at particular index. Supports negative and overflowing indices. O(n)
+    // Add node at a particular index. Supports negative or overflowing indexes. O(n)
     public int insertAt(Object obj, int index) {
         try {
-            if (index < 0 && index * (-1) < this.len)
-                // Algorithm for adjusting negative indices.
+            // Adjust for negative index.
+            if (index < 0 && index * (-1) <= this.len)
                 index = this.len - index * (-1);
-            // If negative index overflows the length.
+            // If negative index overflows.
             else if (index < 0)
                 return 1;
 
-            // Checks to divert to O(1) implementations.
+            // Check to divert to O(1) implementations.
             if (index == 0)
                 return addAtStart(obj);
             else if (index >= this.len-1)
                 return addAtEnd(obj);
-            // Check if index is closer from tail or head and iterate from that end. O(n/2) -> O(n).
+            // Optimization. Check for index being closer from tail or head and then iterate from that end. O(n/2) -> O(n).
             else if (index <= this.len/2 + 1) {
                 Node current = this.head;
 
@@ -148,23 +141,29 @@ public class DoublyLinkedList implements LinkedList {
             return 0;
         } catch (Exception e) {
             return 1;
-        }    
+        }
     }
 
-    // Returns element by index number. Supports negative indices and overflowing indices. O(n)
+    // Return node data at a specified index. Supports negative or overflowing indexes. O(n)
     public Object getAt(int index) {
         try {
-            if (index < 0 && index * (-1) < this.len)
+            // Adjust for negative index.
+            if (index < 0 && index * (-1) <= this.len)
                 index = this.len - index * (-1);
+            // If negative index overflows.
+            else if (index < 0)
+                return null;
 
+            if (index > this.len-1)
+                index = this.len-1;
+
+            Node current = this.head;
             // Check whether index is closer from head or tail and iterate from that end. O(n/2) -> O(n)
             if (index <= this.len/2 + 1) {
-                Node current = this.head;
                 for (int i = 0; i < index; i++)
                     current = current.next;
                 return current.data;
             } else {
-                Node current = this.tail;
                 for (int i = this.len-1; i > index; i--)
                     current = current.next;
                 return current.data;
@@ -174,41 +173,43 @@ public class DoublyLinkedList implements LinkedList {
         }
     }
 
-    // Remove node specified index. Does NOT support negative indexes and overflowing. O(n)
+    // Remove node at specified index. Does NOT support negative or overflowing indexes. O(n)
     public int removeAt(int index) {
         try {
-            // Terminate if index is incorrect.
-            if (index >= this.len || index < 0)
+            // Check for invalid index
+            if (index < 0 || index >= this.len)
                 return 1;
+            // If there's only one element in the list.
+            else if (this.len == 1) {
+                this.head.data = null;
+                this.head = this.tail = new Node(null, null, null);
+            }
+            else if (index == 0) {
+                this.head.data = null;
+                this.head = this.head.next;
+            }
+            else {
 
-            /* Support for negative indices.
-            if (index < 0 && index * (-1) < this.len)
-                index = this.len - index * (-1);
-            else if (index < 0)
-                return 1;
-            */
+                Node current = this.head;
+                Node previous = null;
 
-            // TODO check, run tests.
-            Node current = this.head;
+                // Iterate over the list until node at index is reached.
+                for (int i = 0; i < index; i++) {
+                    previous = current;
+                    current = current.next;
+                }
 
-            // Iterate.
-            for (int i = 0; i < index; i++)
-                current = current.next;
+                // Nullify the data and modify pointers of previous and next
+                // nodes such that they point to each other.
+                current.data = null;
+                current.prev.next = current.next;
+                current.next.prev = current.prev;
 
-            // Set previous node's pointer to next node.
-            current.prev.next = current.next;
-            // Set next node's pointer to previous node.
-            current.next.prev = current.prev;
-            current.data = null;
-            // Decrement.
+                if (index == this.len-1)
+                    this.tail = current;
+            }
+
             this.len--;
-
-            // In case nodes removed were first or last nodes in the list.
-            if (index == 0)
-                this.head = current.next;
-            else if (index == this.len)
-                this.tail = current.prev;
-
             return 0;
         } catch (Exception e) {
             return -1;
@@ -224,8 +225,8 @@ public class DoublyLinkedList implements LinkedList {
                 current.data = null;
                 current = current.next;
             }
-            // Set head and tails to null and call in Java garbage collector.
-            this.head = this.tail = null;
+            // Set head and tail to empty node and call in Java garbage collector.
+            this.head = this.tail = new Node(null, null, null);
             System.gc();
             this.len = 0;
             return 0;
@@ -234,35 +235,34 @@ public class DoublyLinkedList implements LinkedList {
         }
     }
 
-    // Return true if list is empty otherwise false.
+    // Return true if list is empty, false otherwise. O(1)
     public boolean isEmpty() {
-        return this.head == null && this.tail == null && this.len == 0;
+        return this.len == 0 && this.head.data == null && this.tail.data == null;
     }
 
-    // Return length of the list. 0 if its empty.
+    // Return length of the list. O(1)
     public int getLength() {
         return this.len;
     }
 
-    // Stringifies the object.
+    // Stringify the linked list data. O(n)
     @Override
     public String toString() {
         try {
-            // If list is empty.
             if (this.isEmpty())
-                return "[]";
+                return "[]\n";
 
             Node current = this.head;
             String result = "[";
             while (current != null) {
-                // Add quotes to signify string object.
+                // Add quotes if the object is a string.
                 if (current.data instanceof String)
                     result += "\"" + current.data + "\", ";
                 else 
                     result += current.data + ", ";
                 current = current.next;
             }
-            // Remove last 2 unnecessary characters.
+            // Remove 2 unnecessary characters from the last node.
             return result.substring(0, result.length()-2) + "]";
         } catch (Exception e) {
             return null;
@@ -270,20 +270,22 @@ public class DoublyLinkedList implements LinkedList {
     }
 
 
-    // Deprecated. (Was being used for debugging)
+    // Print the linked list data.
    @Deprecated 
     public int printList() {
         try {
             if (this.isEmpty())
-                System.out.println("\nThe list is empty.");
+                System.out.println("THE LIST IS EMPTY:\n[]\n");
             else {
-                System.out.println("\nThe elements in the list are: ");
+                System.out.print("\nDATA IN LINKED LIST IS: \n[");
                 Node current = this.head;
                 while (current != null) {
                     System.out.println(current.data);
-                    current = current.next;                
+                    if (current.next != null)
+                        System.out.println(", ");
+                    current = current.next;
                 }
-                System.out.println();
+                System.out.println("]\n");
             }
         return 0;
         } catch (Exception e) {
@@ -291,7 +293,7 @@ public class DoublyLinkedList implements LinkedList {
         }
     }
 
-    // Deprecated. (Was being used for debugging)
+    /*
     @Deprecated
     public void printListRev() {
         Node current = this.tail;
@@ -300,18 +302,11 @@ public class DoublyLinkedList implements LinkedList {
             current = current.prev;
         }
     }
+    */
+
 
     // Tests.
-    public static void main(String[] args)
-    {
-        DoublyLinkedList dll = new DoublyLinkedList();
-        dll.addAtStart("Called First");
-        dll.addAtEnd("Called Second");
-        dll.addAtEnd("Called Third");
-        dll.addAtEnd("Called Fourth");
-        dll.removeAt(3);
-        System.out.println(dll);
+    public static void main(String[] args) {
     }
 
-    
 }

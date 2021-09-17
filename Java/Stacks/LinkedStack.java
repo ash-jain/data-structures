@@ -58,8 +58,9 @@ public class LinkedStack implements Stack {
         try {
             if (this.isEmpty())
                 return this.addFirst(obj);
-            // Create new node whose previous pointer points at current tail.
-            // Set this node to pointer of tail and then set tail to this node.
+            // Create new node whose previous pointer points at current tail,
+            // Set current tail's next pointer to that node and
+            // set tail itself to this newly created node.
             this.tail = this.tail.next = new Node(obj, this.tail, null);
             this.len++;
             return 0;
@@ -135,6 +136,9 @@ public class LinkedStack implements Stack {
                 current.data = null;
                 current.prev.next = current.next;
                 current.next.prev = current.prev;
+
+                if (index == this.len-1)
+                    this.tail = current;
             }
 
             this.len--;
