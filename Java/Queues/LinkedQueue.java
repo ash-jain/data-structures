@@ -178,7 +178,7 @@ public class LinkedQueue implements Queue {
     public String toString() {
         try {
             if (this.isEmpty())
-                return "[]";
+                return "[]\n";
 
             Node current = this.head;
             String result = "[";
@@ -191,7 +191,7 @@ public class LinkedQueue implements Queue {
                 current = current.next;
             }
             // Remove 2 unnecessary characters from the last node.
-            return result.substring(0, result.length()-2) + "]";
+            return result.substring(0, result.length()-2) + "]\n";
         } catch (Exception e) {
             return null;
         }
@@ -202,17 +202,18 @@ public class LinkedQueue implements Queue {
     public int printQueue() {
         try {
             if (this.isEmpty())
-                System.out.println("QUEUE IS EMPTY.");
+                System.out.println("QUEUE IS EMPTY:\n[]\n");
             else {
-                System.out.print("\nCURRENT QUEUE IS: \n|");
+                System.out.print("\nCURRENT QUEUE IS: \n[");
                 Node current = this.head;
                 while (current != null) {
-                    System.out.print(" " + current.data + " |");
+                    System.out.print(current.data);
+                    if (current.next != null)
+                        System.out.print(", ");
                     current = current.next;
                 }
-                System.out.println("\n");
+                System.out.println("]\n");
             }
-
             return 0;
         } catch (Exception e) {
             return -1;

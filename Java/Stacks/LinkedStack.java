@@ -191,7 +191,7 @@ public class LinkedStack implements Stack {
                     result += "| " + current.data + " |\n";
                 current = current.prev;
             }
-            // Remove 2 unnecessary characters from the last node.
+            // Add finishing dashes.
             return result + "-------\n";
         } catch (Exception e) {
             return null;
@@ -207,6 +207,7 @@ public class LinkedStack implements Stack {
             else {
                 System.out.println("\nCURRENT STACK IS: ");
                 Node current = this.head;
+
                 System.out.println("-------");
                 while (current != null) {
                     System.out.println("| " + current.data + " |");
