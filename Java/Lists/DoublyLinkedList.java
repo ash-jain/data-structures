@@ -46,7 +46,6 @@ public class DoublyLinkedList implements LinkedList {
         try {
             // Create new node whose pointers point at null and set tail and head both to it.
             this.head = this.tail = new Node(obj, null, null);
-            // Increment length variable.
             this.len++;
             return 0;
         } catch (Exception e) {
@@ -76,6 +75,7 @@ public class DoublyLinkedList implements LinkedList {
         try {
             if (this.isEmpty())
                 return addFirst(obj);
+
             // Create new node whose previous pointer points at current tail,
             // Set current tail's next pointer to that node and
             // set tail itself to this newly created node.
@@ -189,21 +189,18 @@ public class DoublyLinkedList implements LinkedList {
                 this.head = this.head.next;
             }
             else {
-
                 Node current = this.head;
                 Node previous = null;
-
                 // Iterate over the list until node at index is reached.
                 for (int i = 0; i < index; i++) {
                     previous = current;
                     current = current.next;
                 }
-
                 // Nullify the data and modify pointers of previous and next
                 // nodes such that they point to each other.
                 current.data = null;
-                current.prev.next = current.next;
-                current.next.prev = current.prev;
+                previous.next = current.next;
+                current.next.prev = previous;
 
                 if (index == this.len-1)
                     this.tail = current;
@@ -216,7 +213,7 @@ public class DoublyLinkedList implements LinkedList {
         }
     }
 
-    // Delete list.
+    // Delete list. O(n)
     public int clear() {
         try {
             Node current = this.head;
@@ -237,7 +234,7 @@ public class DoublyLinkedList implements LinkedList {
 
     // Return true if list is empty, false otherwise. O(1)
     public boolean isEmpty() {
-        return this.len == 0 && this.head.data == null && this.tail.data == null;
+        return this.head.data == null && this.tail.data == null && this.len == 0;
     }
 
     // Return length of the list. O(1)
@@ -268,7 +265,6 @@ public class DoublyLinkedList implements LinkedList {
             return null;
         }
     }
-
 
     // Print the linked list data.
    @Deprecated 

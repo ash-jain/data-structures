@@ -107,19 +107,18 @@ public class SinglyLinkedList implements LinkedList {
                 return addAtStart(obj);
             else if (index >= this.len-1)
                 return addAtEnd(obj);
-            else {
-                Node current = this.head;
-                Node previous = null;
-                // Iterate over the list until node just before index is reached.
-                for (int i = 0; i < index; i++) {
-                    previous = current;
-                    current = current.next;
-                }
-                // Create new node whose pointer points at node situated at index then
-                // set previous element's pointer to this newly created node.
-                previous.next = new Node(obj, current);
-                this.len++;
+
+            Node current = this.head;
+            Node previous = null;
+            // Iterate over the list until node just before index is reached.
+            for (int i = 0; i < index; i++) {
+                previous = current;
+                current = current.next;
             }
+            // Create new node whose pointer points at node situated at index then
+            // set previous node's pointer to this newly created node.
+            previous.next = new Node(obj, current);
+            this.len++;
             return 0;
         } catch (Exception e) {
             return -1;
@@ -136,11 +135,11 @@ public class SinglyLinkedList implements LinkedList {
             else if (index < 0)
                 return null;
 
-            if (index >= this.len-1)
+            if (index > this.len-1)
                 index = this.len-1;
 
             Node current = this.head;
-            // Iterate over the list and return the data.
+            // Iterate over the list until index is reached and return the data.
             for (int i = 0; i < index; i++)
                 current = current.next;
             return current.data;
